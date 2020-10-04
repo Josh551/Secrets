@@ -7,27 +7,23 @@ const date = require(__dirname + "/app.js");
 const mongoose = require("mongoose");
 const encryt = require("mongoose-encryption");
 const session = require("express-session");
-const AerospikeStore = require("aerospike-session-store")(session);
 
 var app = express();
+var MemoryStore = require("memorystore")(session);
+
 app.use(
   session({
-    secret: "123456789QWERTY",
-    store: new AerospikeStore({
-      namespace: "express",
-      set: "session",
-      ttl: 86400, // 1 day
-      hosts: "10.0.0.1:3000,10.0.0.2:3000",
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
     }),
-    resave: false,
-    saveUninitialized: false,
+    secret: "keyboard cat",
   })
 );
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const findOrCreate = require("mongoose-findorcreate");
-const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
