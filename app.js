@@ -11,15 +11,6 @@ const session = require("express-session");
 var app = express();
 var MemoryStore = require("memorystore")(session);
 
-app.use(
-  session({
-    cookie: { maxAge: 86400000 },
-    store: new MemoryStore({
-      checkPeriod: 86400000, // prune expired entries every 24h
-    }),
-    secret: "keyboard cat",
-  })
-);
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -31,9 +22,11 @@ app.set("view engine", "ejs");
 
 app.use(
   session({
-    secret: "Our little secret.",
-    resave: false,
-    saveUninitialized: false,
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000, // prune expired entries every 24h
+    }),
+    secret: "keyboard cat",
   })
 );
 
