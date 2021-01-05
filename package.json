@@ -1,7 +1,7 @@
 {
   "name": "secrets",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a simple application for demonstrating Google OAuth using passport.js",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
